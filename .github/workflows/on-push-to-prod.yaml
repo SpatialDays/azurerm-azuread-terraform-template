@@ -27,7 +27,7 @@ on:
   workflow_call:
   schedule:
     - cron: "0 7 * * 1" # every Monday at 7am UTC to renew the certificate if it is about to expire
-    
+
 concurrency: prod-enviroment
 
 jobs:
@@ -43,10 +43,6 @@ jobs:
       TF_VAR_STATE_STORAGE_ACCOUNT_NAME: ${{ vars.TF_VAR_STATE_STORAGE_ACCOUNT_NAME }}
       TF_VAR_STATE_CONTAINER_NAME: ${{ vars.TF_VAR_STATE_CONTAINER_NAME }}
       TF_VAR_ENVIRONMENT: ${{ vars.TF_VAR_ENVIRONMENT }}
-      # acr vars
-      TF_VAR_ACR_LOGIN_SERVER: ${{ secrets.TF_VAR_ACR_LOGIN_SERVER }}
-      TF_VAR_ACR_LOGIN_USERNAME: ${{ secrets.TF_VAR_ACR_LOGIN_USERNAME }}
-      TF_VAR_ACR_LOGIN_PASSWORD: ${{ secrets.TF_VAR_ACR_LOGIN_PASSWORD }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -56,7 +52,7 @@ jobs:
         id: extract_branch
       - name: Perform envsubst on provider_secrets_template with environment variables
         run: |
-         envsubst < provider_secrets_template > provider_secrets
+          envsubst < provider_secrets_template > provider_secrets
       - name: Setup Terraform Provider
         uses: hashicorp/setup-terraform@v2
         with:

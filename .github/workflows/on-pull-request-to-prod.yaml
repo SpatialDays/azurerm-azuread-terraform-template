@@ -39,18 +39,12 @@ jobs:
       TF_VAR_STATE_STORAGE_ACCOUNT_NAME: ${{ vars.TF_VAR_STATE_STORAGE_ACCOUNT_NAME }}
       TF_VAR_STATE_CONTAINER_NAME: ${{ vars.TF_VAR_STATE_CONTAINER_NAME }}
       TF_VAR_ENVIRONMENT: ${{ vars.TF_VAR_ENVIRONMENT }}
-      # acr vars
-      TF_VAR_ACR_LOGIN_SERVER: ${{ secrets.TF_VAR_ACR_LOGIN_SERVER }}
-      TF_VAR_ACR_LOGIN_USERNAME: ${{ secrets.TF_VAR_ACR_LOGIN_USERNAME }}
-      TF_VAR_ACR_LOGIN_PASSWORD: ${{ secrets.TF_VAR_ACR_LOGIN_PASSWORD }}
     steps:
-      #      - name: Exit action as it is disabled
-      #        run: exit 0
       - name: Checkout code
         uses: actions/checkout@v4
       - name: Perform envsubst on provider_secrets_template with environment variables
         run: |
-         envsubst < provider_secrets_template > provider_secrets
+          envsubst < provider_secrets_template > provider_secrets
       - name: Setup Terraform Provider
         uses: hashicorp/setup-terraform@v2
         with:
@@ -128,11 +122,6 @@ jobs:
           terraform plan -no-color 2>&1 | tee plan.txt
           exit ${PIPESTATUS[0]}
         continue-on-error: true
-      # - name: Move output to env var
-      #   run: |
-      #     echo "PLAN_OUTPUT_NON_FILTERED<<EOF" >> $GITHUB_ENV
-      #     cat plan.txt >> $GITHUB_ENV
-      #     echo "EOF" >> $GITHUB_ENV
       - name: Make artifact with plan
         uses: actions/upload-artifact@v3
         with:
