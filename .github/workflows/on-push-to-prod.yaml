@@ -25,7 +25,9 @@ on:
       - prod
   workflow_dispatch:
   workflow_call:
-
+  schedule:
+    - cron: "0 7 * * 1" # every Monday at 7am UTC to renew the certificate if it is about to expire
+    
 concurrency: prod-enviroment
 
 jobs:
