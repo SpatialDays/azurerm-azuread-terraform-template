@@ -33,8 +33,7 @@ concurrency: staging-enviroment
 
 jobs:
   terraform-apply:
-    # runs-on: ubuntu-latest
-    runs-on: spatialdays-self-hosted-runner-1
+    runs-on: ubuntu-latest
     environment: STAGING_ENVIRONMENT
     env:
       TF_VAR_SUBSCRIPTION_ID: ${{ secrets.TF_VAR_SUBSCRIPTION_ID }}
@@ -46,6 +45,8 @@ jobs:
       TF_VAR_STATE_CONTAINER_NAME: ${{ vars.TF_VAR_STATE_CONTAINER_NAME }}
       TF_VAR_ENVIRONMENT: ${{ vars.TF_VAR_ENVIRONMENT }}
     steps:
+      - name: Check if docker is installed
+        run: docker --version
       - name: Checkout code
         uses: actions/checkout@v4
       - name: Extract branch name

@@ -40,6 +40,8 @@ jobs:
       TF_VAR_STATE_CONTAINER_NAME: ${{ vars.TF_VAR_STATE_CONTAINER_NAME }}
       TF_VAR_ENVIRONMENT: ${{ vars.TF_VAR_ENVIRONMENT }}
     steps:
+      - name: Check if docker is installed
+        run: docker --version
       - name: Checkout code
         uses: actions/checkout@v4
       - name: Perform envsubst on provider_secrets_template with environment variables
@@ -178,3 +180,4 @@ jobs:
       - name: Fail the build if plan fails
         if: steps.plan.outcome == 'failure'
         run: exit 1
+  
